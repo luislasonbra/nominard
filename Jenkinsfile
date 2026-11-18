@@ -71,7 +71,7 @@ pipeline {
       steps {
         sh '''
           for i in 1 2 3 4 5; do
-            curl -fsS https://$PROJECT.web.app/healthz && exit 0
+            curl -fsS https://$PROJECT.web.app/health && exit 0
             sleep 10
           done
           exit 1

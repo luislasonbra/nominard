@@ -18,7 +18,7 @@ Esta guía está adaptada a tu **Sistema de Nómina RD** (Flask, Flask-SQLAlchem
 | El registro público de usuarios queda cerrado en producción (`ALLOW_REGISTRATION`) | Si no, cualquiera podría crearse una cuenta y ver sueldos y cédulas |
 | El primer administrador se crea con `ADMIN_EMAIL` y `ADMIN_PASSWORD`; `seed.py` queda bloqueado en producción | `seed.py` borra todos los datos y crea usuarios con claves públicas (`admin123`) |
 | `CORS` abierto y `debug=True` solo en desarrollo | En producción frontend y API salen del mismo dominio |
-| Nueva ruta `/healthz` y carpeta `tests/` con 10 pruebas | Jenkins necesita pruebas y Cloud Run una forma de saber que la app vive |
+| Nueva ruta `/health` y carpeta `tests/` con 10 pruebas | Jenkins necesita pruebas y Cloud Run una forma de saber que la app vive |
 
 **Archivos nuevos:** `config.py`, `Dockerfile`, `.dockerignore`, `.gitignore`, `.env.example`, `firebase.json`, `.firebaserc`, `public/`, `Jenkinsfile`, `jenkins/` (Dockerfile y docker-compose.yml), `requirements-dev.txt` y `tests/`. En `requirements.txt` se agregaron `gunicorn` y `psycopg2-binary`.
 
@@ -111,7 +111,7 @@ docker build -t nomina-rd .
 docker run -p 8080:8080 --env-file .env nomina-rd
 ```
 
-4. Abre http://localhost:8080 e inicia sesión con el `ADMIN_EMAIL` y `ADMIN_PASSWORD` que pusiste en `.env`. También prueba http://localhost:8080/healthz: debe mostrar `{"status":"ok"}`.
+4. Abre http://localhost:8080 e inicia sesión con el `ADMIN_EMAIL` y `ADMIN_PASSWORD` que pusiste en `.env`. También prueba http://localhost:8080/health: debe mostrar `{"status":"ok"}`.
 5. Detén con `Ctrl + C`. Los datos de este contenedor se pierden al detenerlo; es normal, es solo una prueba.
 
 | Error | Causa y solución |
@@ -214,7 +214,7 @@ gcloud run deploy nomina-rd --image us-central1-docker.pkg.dev/TU_ID/nomina-rd/n
 firebase deploy --only hosting
 ```
 
-5. Abre `https://TU_ID.web.app`. Debes ver el login de tu sistema. Entra con el `ADMIN_EMAIL` y `ADMIN_PASSWORD` que pusiste. Prueba también `https://TU_ID.web.app/healthz`. La primera carga puede tardar unos segundos porque Cloud Run arranca la app al recibir la primera visita.
+5. Abre `https://TU_ID.web.app`. Debes ver el login de tu sistema. Entra con el `ADMIN_EMAIL` y `ADMIN_PASSWORD` que pusiste. Prueba también `https://TU_ID.web.app/health`. La primera carga puede tardar unos segundos porque Cloud Run arranca la app al recibir la primera visita.
 
 > Con Cloud SQL, añade `--add-cloudsql-instances NOMBRE_DE_CONEXION` al comando del paso 3.
 
@@ -276,7 +276,7 @@ Cada etapa (`stage`) se ejecuta en orden y, si una falla, Jenkins se detiene: **
 | Construir imagen | Ejecuta `docker build` con el número de build como etiqueta (1, 2, 3...), para poder volver a una versión anterior |
 | Subir imagen | Inicia sesión en Google con la cuenta de servicio y hace `docker push` a Artifact Registry |
 | Desplegar | Actualiza el servicio `nomina-rd` en Cloud Run con las variables secretas y luego publica Firebase Hosting |
-| Verificar | Consulta `https://TU_ID.web.app/healthz` hasta cinco veces; si no responde, el build falla |
+| Verificar | Consulta `https://TU_ID.web.app/health` hasta cinco veces; si no responde, el build falla |
 
 Cada vez que Jenkins despliega reemplaza **todas** las variables de entorno del servicio con las de sus credenciales; por eso `ALLOW_REGISTRATION` vuelve a quedar cerrado en cada despliegue.
 

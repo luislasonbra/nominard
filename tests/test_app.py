@@ -1,8 +1,8 @@
 from app import calcular_isr
 
 
-def test_healthz(client):
-    r = client.get("/healthz")
+def test_health(client):
+    r = client.get("/health")
     assert r.status_code == 200
     assert r.get_json()["status"] == "ok"
 

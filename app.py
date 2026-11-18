@@ -150,8 +150,8 @@ def no_cachear_datos(resp):
     return resp
 
 
-@app.route("/healthz")
-def healthz():
+@app.route("/health")
+def health():
     return jsonify({"status": "ok"})
 
 
