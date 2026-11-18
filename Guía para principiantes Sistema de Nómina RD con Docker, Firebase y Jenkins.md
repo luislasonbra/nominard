@@ -83,7 +83,7 @@ git init
 git add .
 git commit -m "Nómina RD lista para la nube"
 git branch -M main
-git remote add origin https://github.com/TU_USUARIO/nomina-rd.git
+git remote add origin https://github.com/luislasonbra/nominard.git
 git push -u origin main
 ```
 

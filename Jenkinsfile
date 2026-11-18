@@ -2,10 +2,10 @@ pipeline {
   agent any
 
   environment {
-    PROJECT = 'TU_ID_DE_PROYECTO'          // ID del proyecto de Firebase / Google Cloud
+    PROJECT = 'fcm-test-7e087'          // ID del proyecto de Firebase / Google Cloud
     REGION  = 'us-central1'
     SERVICE = 'nomina-rd'                  // debe coincidir con serviceId de firebase.json
-    IMAGE   = "us-central1-docker.pkg.dev/TU_ID_DE_PROYECTO/nomina-rd/nomina-rd:${BUILD_NUMBER}"
+    IMAGE   = "us-central1-docker.pkg.dev/fcm-test-7e087/nomina-rd/nomina-rd:${BUILD_NUMBER}"
     CLOUDSQL_INSTANCE = ''                 // 'proyecto:region:instancia' si usas Cloud SQL; vacío si no
   }
 
