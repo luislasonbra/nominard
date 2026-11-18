@@ -1,0 +1,9 @@
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+*.db
+*-key.json
+*.key.json
+firebase-debug.log

@@ -1,0 +1,17 @@
+venv/
+__pycache__/
+*.pyc
+.git/
+.gitignore
+*.db
+*.sql
+.env
+tests/
+jenkins/
+Jenkinsfile
+firebase.json
+.firebaserc
+public/
+README.md
+requirements-dev.txt
+.pytest_cache/
